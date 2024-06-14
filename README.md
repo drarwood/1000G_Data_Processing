@@ -7,7 +7,7 @@ for 78,1222,255 autosomal variants in 2,584 indivuals. <br/><br/>
 Data is stored in a Zenodo repo here: https://zenodo.org/doi/10.5281/zenodo.11635380
 <br/><br/>
 The data is split by chromosome with the file extensions `.pop`, `.var`, `.bin`. 
-The file specification can be found [here](https://github.com/drarwood/1000G_Data_Processing/blob/master/1000G_pop_freq_diffs_file_format.pdf)
+The file specification can be found [here](https://github.com/drarwood/1000G_Data_Processing/blob/master/1000G_pop_freq_diffs_file_format.pdf).
 <br/><br/>
 An example Python script and SNP list for lookup have been provided for use. For example, to lookup frequency differences of the subset 
 of 12,111 height variants published in Yengo et al on chromosome 1 across ancestral groups in the 1000G project, the following command
