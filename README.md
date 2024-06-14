@@ -16,6 +16,6 @@ can be used:
   python GetFreqDiffs.py \
     --freq-diffs 1000g_build38_pop_freq_diffs_1 \
     --vars 12111_height_snps.txt \
-    --out 12111_height_snps_1000g_freq_diffs.txt
+    --out 12111_height_snps_1000g_freq_diffs_1.txt
 ```
 
