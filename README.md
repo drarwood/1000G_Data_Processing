@@ -1,7 +1,7 @@
 # 1000G Data Processing
 Repository containing data and code for processing 1000G data
 ---
-### Allele Frequency Differences
+### Allele Frequency Differences (build 38)
 Differences in allele frequencies across the 5 super-ancestries and 26 sub-ancestries in the 1000G Project have been calculated 
 for 78,1222,255 autosomal variants in 2,584 indivuals. <br/><br/>
 Data is stored in a Zenodo repo here: https://zenodo.org/doi/10.5281/zenodo.11635380
