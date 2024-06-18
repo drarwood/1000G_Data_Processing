@@ -17,7 +17,7 @@ def LoadPopulationPairs(a):
       x (dict.) : dictionary of variant_id -> KG_Variant class objects
     '''
     x = {}
-    with open(a+".pp") as f:
+    with open(a+".pop") as f:
         for l in f:
             d=l.rstrip("\n").split("\t")
             x[d[0]] = d[1]
@@ -40,7 +40,7 @@ def LoadIndexFile(a):
       x (dict.) : dictionary of variant_id -> KGVariant class objects
     '''
     x = {}
-    with open(a+".va") as f:
+    with open(a+".var") as f:
         for l in f:
             d=l.rstrip("\n").split("\t")
             x[d[0]] = KGVariant(d[1], d[2], d[3], d[4])
@@ -93,14 +93,13 @@ def Extract1000GAlleleFreqDiffs(a, b, c, d, e):
     Returns:
       NA
     '''
-    with open(a+".fd", "rb") as f, open(b, "w") as o:
+    with open(a+".bin", "rb") as f, open(b, "w") as o:
 
         # Form header for output file: a1 = primary allele by user diffs refer to
         o.write("\t".join(["variant\ta1\ta2\t" + "\t".join(list(c.values()))]) +"\n")
 
         # cycle through e (dictionary containing user variant data for lookup)
         for k,v in e.items():
-            print(k)
             # create numpy array of size len(c) initialised to zero
             diffs = np.zeros(len(c))
             # Get the start byte of the variant, and the number of non-zero diffs
