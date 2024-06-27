@@ -1,6 +1,13 @@
 # 1000G Data Processing
 Repository containing data and code for processing 1000G data
 ---
+### Association vs Allele Frequency differences (build 38)
+A script [`Assoc_P_vs_AF_Diffs.R`](assoc_p_vs_af_diffs/Assoc_P_vs_AF_Diffs.R) and dataset containing sparse matrices of allele frequency differences within the
+5 broad genetic ancestral groups (AFR, AMR, EAS, EUR, SAS)
+ 
+---
+
+
 ### Allele Frequency Differences (build 38)
 Differences in allele frequencies across the 5 super-ancestries and 26 sub-ancestries in the 1000G Project have been calculated 
 for 78,122,255 autosomal variants in 2,584 indivuals. <br/><br/>
@@ -21,5 +28,4 @@ can be used:
 ```
 ---
 
-### Association vs Allele Frequency differences (build 38)
 
