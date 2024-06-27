@@ -241,7 +241,7 @@ total_count_vector <- numeric(40)
 
 
 # 3c. Cycle through the chromosomes of the allele frequency diff. dataset
-for (chr in 21:22) {
+for (chr in 1:22) {
 
   # Load variants for which we have allele frequency diffs in 1000G
   vars_1000G <- Load1000GVarData(opt$refdir, opt$ancestry, chr)
