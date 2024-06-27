@@ -5,7 +5,7 @@ Repository containing data and code for processing 1000G data
 A script [`Assoc_P_vs_AF_Diffs.R`](assoc_p_vs_af_diffs/Assoc_P_vs_AF_Diffs.R) and dataset containing sparse matrices of allele frequency differences within the
 5 broad genetic ancestral groups (AFR, AMR, EAS, EUR, SAS).   
 
-** Ancestry-specific matricies yet to be provided ** 
+** Ancestry-specific matrices yet to be provided ** 
 
 R libraries required: `data.table`, `r2r`, `ggplot2`, `optparse`.   
 
