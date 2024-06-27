@@ -4,7 +4,50 @@ Repository containing data and code for processing 1000G data
 ### Association vs Allele Frequency differences (build 38)
 A script [`Assoc_P_vs_AF_Diffs.R`](assoc_p_vs_af_diffs/Assoc_P_vs_AF_Diffs.R) and dataset containing sparse matrices of allele frequency differences within the
 5 broad genetic ancestral groups (AFR, AMR, EAS, EUR, SAS)
- 
+
+R libraries required:
+```
+data.table
+r2r
+ggplot2
+optparse
+```
+
+Help using this R script call be called using `-h` or `--help`
+
+```
+Rscript Assoc_P_vs_AF_Diffs.R -h
+
+Usage: Assoc_P_vs_AF_Diffs.R [options]
+
+Options:
+	-s STUDY, --study=STUDY
+		study name (no spaces) (required)
+
+	-g GWAS, --gwas=GWAS
+		REGENIE results filename (required)
+
+	-a ANCESTRY, --ancestry=ANCESTRY
+		Genetic ancestry of study: AFR|AMR|EAS|EUR|SAS (required)
+
+	-r REFDIR, --refdir=REFDIR
+		Main directory holding 1000G frequency data (required)
+
+	-o OUTDIR, --outdir=OUTDIR
+		Output directory for results. Default: ./
+
+	-h, --help
+		Show this help message and exit
+```
+Example command:
+```
+Rscript Assoc_P_vs_AF_Diffs.R \
+  --study     MY_STUDY \
+  --gwas      gwas_results.txt \
+  --ancestry  EUR \
+  -r          /path/to/1000g_build38_pop_freq_diffs_by_subancestry/ \
+  -o          /path/to/output/directory/
+```
 ---
 
 
