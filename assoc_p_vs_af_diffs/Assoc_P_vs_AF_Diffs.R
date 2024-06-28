@@ -90,7 +90,7 @@ Load1000GVarData <- function(d, p, c) {
   #   x (df)      : df holding all variant data across chromosomes
   
   print(paste0("Loading 1000G variants for chromosome ", as.character(c)))
-  x <- fread(paste0(d,"/",p,"/1000g_build38_pop_freq_diffs_",p,"_",c), 
+  x <- fread(paste0(d,"/",p,"/1000g_build38_pop_freq_diffs_snps_",p,"_",c), 
              data.table=FALSE)
   x$id <- paste(x$chr, x$pos, x$a1_freq_allele, x$a2_freq_allele, sep=":")
 
