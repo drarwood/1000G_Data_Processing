@@ -58,8 +58,8 @@ LoadRegenieFile <- function(f) {
                           "numeric", "numeric", "numeric", 
                           "numeric", "character"))
 
-  # filter out any results with INFO < 0.3 and MAF < 0.1%
-  x <- subset(x, INFO>=0.3 & A1FREQ >= 0.001 & A1FREQ <= 0.999)
+  # filter out any results with INFO < 0.5 and MAF < 0.1%
+  x <- subset(x, INFO>=0.5 & A1FREQ >= 0.001 & A1FREQ <= 0.999)
 
   # determine trait raising and lowering alleles
   x$ALLELE_RAISING<-ifelse(x$BETA >= 0, x$ALLELE1, x$ALLELE0)
