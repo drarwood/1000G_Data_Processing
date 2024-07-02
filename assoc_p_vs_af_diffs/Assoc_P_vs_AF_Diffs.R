@@ -3,6 +3,8 @@
 # The purpose of this script is to obtain allele frequency differences between 
 # ancestry groups in 1000G within one of the five super-populations
 
+# Verion 2 - reads in a zsro file as well
+
 # Import required libraries
 suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(r2r))
@@ -79,6 +81,26 @@ LoadRegenieFile <- function(f) {
   
 }
 
+Load1000GZeroDiffList <- function(d, p, c) {
+
+  # This function loads the 1000G variant ids where frequency difference = 0 
+  # between all pairs within ancestry
+  # Parameters:
+  #   d (string) : directory holding variant data
+  #   p (string) : broad ancestral group
+  #   c (int)    : chromomsome
+  # Returns:
+  #   x (df)      : df holding all variant data across chromosomes
+
+  x <- fread(paste0(d,"/",p,"/1000g_build38_pop_freq_diffs_",p,"_zero_",c),
+             data.table=FALSE)
+  names(x) = "id"
+  
+  # Return DF
+  return (x)
+}
+
+
 Load1000GVarData <- function(d, p, c) {
   
   # This function loads the 1000G frequency differences file
@@ -89,8 +111,7 @@ Load1000GVarData <- function(d, p, c) {
   # Returns:
   #   x (df)      : df holding all variant data across chromosomes
   
-  print(paste0("Loading 1000G variants for chromosome ", as.character(c)))
-  x <- fread(paste0(d,"/",p,"/1000g_build38_pop_freq_diffs_snps_",p,"_",c), 
+  x <- fread(paste0(d,"/",p,"/1000g_build38_pop_freq_diffs_",p,"_",c), 
              data.table=FALSE)
   x$id <- paste(x$chr, x$pos, x$a1_freq_allele, x$a2_freq_allele, sep=":")
 
@@ -125,7 +146,7 @@ CheckArgs(opt)
 
  
 ### 3. Load and extract required GWAS data
-print("Loading GWAS results from REGENIE")
+print("Loading and processing GWAS results from REGENIE")
 gwas <- LoadRegenieFile(opt$g)
 
 
@@ -155,14 +176,33 @@ total_count_vector <- numeric(40)
 # 5c. Cycle through the chromosomes of the allele frequency diff. dataset
 for (chr in 1:22) {
 
+  # Feedback chromosome being processed to user
+  print(paste0("Processing chromosome ", chr))
+
+  ### Handle variants with no differences at all across 1000G pop pairs
+  # Load variant list where there are no differences in freq across pop. pairs
+  vars_1000G <- Load1000GZeroDiffList(opt$refdir, opt$ancestry, chr)
+  
+  # Now merge ID1 and ID2 in gwas to the var_1000G DF
+  merge1 <- merge(gwas, vars_1000G, by.x = "ID1", by.y = "id")
+  merge2 <- merge(gwas, vars_1000G, by.x = "ID2", by.y = "id")
+  x <- rbind(merge1, merge2)
+
+  # cycle through the p-value bin
+  for (bin in seq(0.025,1, 0.025)) {
+      # Update total_count_vector used to capture all chromosomes
+      total_count_vector[h[[as.character(bin)]]] = nrow(subset(x, PBIN == as.character(bin)))
+  }
+
+  ### Handle variants with some differences at all across 1000G pop pairs
   # Load variants for which we have allele frequency diffs in 1000G
   vars_1000G <- Load1000GVarData(opt$refdir, opt$ancestry, chr)
   
   # Now merge ID1 and ID2 in gwas to the var_1000G DF
   merge1 <- merge(gwas, vars_1000G, by.x = "ID1", by.y = "id")
   merge2 <- merge(gwas, vars_1000G, by.x = "ID2", by.y = "id")
-  x <- rbind(merge1, merge2)
-  
+  x <- rbind(merge1, merge2)  
+
   # Determine if frequency differences need to be flipped. Set as multiplier
   x$FLIP_DIFF <- ifelse(x$ALLELE_RAISING == x$a1_freq_allele, 1, -1)
 
@@ -185,8 +225,8 @@ for (chr in 1:22) {
     total_diff_matrix[h[[as.character(bin)]], ] = 
       total_diff_matrix[h[[as.character(bin)]], ] + total_freq_diffs
 
-    # Update total_count_matrix used to capture all chromosomes
-    total_count_vector[h[[as.character(bin)]]] = nrow(M)
+    # Update total_count_vector used to capture all chromosomes
+    total_count_vector[h[[as.character(bin)]]] = total_count_vector[h[[as.character(bin)]]] + nrow(M)
     
   }
   
