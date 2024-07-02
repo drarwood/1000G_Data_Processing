@@ -3,8 +3,6 @@
 # The purpose of this script is to obtain allele frequency differences between 
 # ancestry groups in 1000G within one of the five super-populations
 
-# Verion 2 - reads in a zsro file as well
-
 # Import required libraries
 suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(r2r))
@@ -191,7 +189,8 @@ for (chr in 1:22) {
   # cycle through the p-value bin
   for (bin in seq(0.025,1, 0.025)) {
       # Update total_count_vector used to capture all chromosomes
-      total_count_vector[h[[as.character(bin)]]] = nrow(subset(x, PBIN == as.character(bin)))
+      total_count_vector[h[[as.character(bin)]]] = 
+        nrow(subset(x, PBIN == as.character(bin)))
   }
 
   ### Handle variants with some differences at all across 1000G pop pairs
@@ -226,13 +225,15 @@ for (chr in 1:22) {
       total_diff_matrix[h[[as.character(bin)]], ] + total_freq_diffs
 
     # Update total_count_vector used to capture all chromosomes
-    total_count_vector[h[[as.character(bin)]]] = total_count_vector[h[[as.character(bin)]]] + nrow(M)
+    total_count_vector[h[[as.character(bin)]]] = 
+      total_count_vector[h[[as.character(bin)]]] + nrow(M)
     
   }
   
 }
 
-## 5d. Divide columns of total diffs matrix by vector of total counts & store DF 
+## 5d. Divide columns of total diffs matrix by vector of total counts and
+#       store DF 
 avg_freq_diffs_by_p_value_bin <- data.frame(seq(0.025,1,0.025),
                                            total_diff_matrix/total_count_vector)
 
